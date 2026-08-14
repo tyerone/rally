@@ -1,0 +1,153 @@
+@import "@fontsource/nunito/400.css";
+@import "@fontsource/nunito/700.css";
+@import "@fontsource/nunito/800.css";
+@import "@fontsource/nunito/900.css";
+
+:root {
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background: #0c0d11;
+  overscroll-behavior: none;
+}
+
+html {
+  height: 100dvh;
+}
+
+body {
+  font-family: Nunito, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  height: 100dvh;
+  overflow: hidden;
+}
+
+#root {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+a {
+  color: #4FCBBB;
+  text-decoration: none;
+}
+a:hover {
+  color: #6fded0;
+}
+
+button, input, textarea {
+  font-family: inherit;
+}
+
+.ry-scroll {
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+.ry-scroll::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+
+.ry-note::placeholder,
+.ry-inp::placeholder {
+  color: rgba(255, 255, 255, 0.32);
+  font-weight: 700;
+}
+.ry-note:focus,
+.ry-inp:focus {
+  outline: none;
+  border-color: #4FCBBB !important;
+}
+
+/* App shell — mobile-first, capped like a phone card on wide viewports */
+.ry-app-shell {
+  width: 100%;
+  max-width: 440px;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+  background: #15161B;
+  display: flex;
+  flex-direction: column;
+}
+
+@media (min-width: 480px) {
+  .ry-app-shell {
+    height: min(956px, 100dvh - 24px);
+    border-radius: 28px;
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.55);
+  }
+}
+
+@keyframes ryWelcomeIn {
+  0% { opacity: 0; transform: translateY(8px) scale(.97); }
+  100% { opacity: 1; transform: none; }
+}
+@keyframes rySecIn {
+  0% { opacity: 0; transform: translateY(14px); }
+  100% { opacity: 1; transform: none; }
+}
+@keyframes ryHdrIn {
+  0% { opacity: 0; transform: translateY(-8px); }
+  100% { opacity: 1; transform: none; }
+}
+@keyframes ryRowIn {
+  0% { opacity: 0; transform: translateY(10px); }
+  100% { opacity: 1; transform: none; }
+}
+@keyframes ryCardIn {
+  0% { opacity: 0; transform: translateY(12px); }
+  100% { opacity: 1; transform: none; }
+}
+@keyframes ryBadgeIn {
+  0% { opacity: 0; transform: scale(.6); }
+  60% { transform: scale(1.1); }
+  100% { opacity: 1; transform: scale(1); }
+}
+@keyframes ryYouGlow {
+  0%, 100% { box-shadow: inset 0 0 0 2px #4FCBBB, 0 0 0 0 rgba(79,203,187,0); }
+  50% { box-shadow: inset 0 0 0 2px #4FCBBB, 0 0 16px 0 rgba(79,203,187,.35); }
+}
+@keyframes ryPop {
+  0% { transform: scale(.5); opacity: 0; }
+  60% { transform: scale(1.12); }
+  100% { transform: scale(1); opacity: 1; }
+}
+@keyframes ryCharIn {
+  0% { opacity: 0; transform: translateY(8px) scale(.8); }
+  100% { opacity: 1; transform: none; }
+}
+@keyframes ryBubbleIn {
+  0% { opacity: 0; transform: translateX(10px) scale(.96); }
+  100% { opacity: 1; transform: none; }
+}
+@keyframes ryMascotIn {
+  0% { opacity: 0; transform: translateY(10px); }
+  100% { opacity: 1; transform: none; }
+}
+@keyframes ryFadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+@keyframes ryIdle {
+  0%, 100% { transform: translateY(0) rotate(-1.3deg); }
+  50% { transform: translateY(-7px) rotate(1.3deg); }
+}
+@keyframes ryLogoIn {
+  0% { opacity: 0; transform: translateY(14px) scale(.96); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes ryBtnsIn {
+  0% { opacity: 0; transform: translateY(22px); }
+  100% { opacity: 1; transform: translateY(0); }
+}

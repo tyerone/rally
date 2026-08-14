@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800;900&display=swap" rel="stylesheet">
+<style>
+  html,body{margin:0}
+  *{box-sizing:border-box}
+  a{color:#4FCBBB;text-decoration:none}
+  a:hover{color:#6fded0}
+  @keyframes ryWelcomeIn{0%{opacity:0;transform:translateY(8px) scale(.97)}100%{opacity:1;transform:none}}
+  @keyframes rySecIn{0%{opacity:0;transform:translateY(14px)}100%{opacity:1;transform:none}}
+  .ry-scroll::-webkit-scrollbar{width:0;height:0}
+  .ry-scroll{scrollbar-width:none}
+</style>
+</helmet>
+<div style="width:440px;height:956px;position:relative;overflow:hidden;background:#15161B;font-family:Nunito,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;-webkit-font-smoothing:antialiased">
+
+  <!-- ===== SPLASH ===== -->
+  <div ref="{{ splashRef }}" style="position:absolute;inset:0;background:#15161B;z-index:2;will-change:opacity;transition:opacity .55s ease">
+    <img src="assets/welcome.svg" alt="Welcome to Rally" width="440" height="956" style="position:absolute;top:0;left:0;display:block;animation:ryWelcomeIn .6s cubic-bezier(.2,.7,.2,1) both" />
+    <sc-for list="{{ parts }}" as="p">
+      <img alt="" width="{{ p.w }}" height="{{ p.h }}" ref="{{ p.ref }}" style="{{ p.style }}" />
+    </sc-for>
+  </div>
+
+  <!-- ===== DASHBOARD (destination) ===== -->
+  <div ref="{{ dashRef }}" style="position:absolute;inset:0;opacity:0;z-index:1;will-change:opacity;transition:opacity .55s ease;display:flex;flex-direction:column;background:#15161B">
+
+    <!-- header -->
+    <div style="flex-shrink:0;padding:26px 20px 12px;display:flex;align-items:center;gap:14px;animation:rySecIn .5s cubic-bezier(.2,.7,.2,1) both">
+      <div style="width:56px;height:56px;border-radius:50%;background:#4FCBBB;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 4px 0 #37948A">
+        <img src="assets/nav-profile.svg" alt="" width="42" height="42" style="display:block" />
+      </div>
+      <div style="min-width:0;flex:1">
+        <div style="color:rgba(255,255,255,.45);font-size:11.5px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase">Welcome back</div>
+        <div style="color:#fff;font-size:23px;font-weight:900;letter-spacing:-.3px;line-height:1.1">Hey, Riley</div>
+      </div>
+    </div>
+
+    <!-- scroll body -->
+    <div class="ry-scroll" style="flex:1;min-height:0;overflow-y:auto;padding:6px 0 12px">
+
+      <!-- stats row -->
+      <div style="display:flex;gap:10px;padding:0 16px;animation:rySecIn .5s .04s cubic-bezier(.2,.7,.2,1) both">
+        <div style="flex:1;background:#1b1e2b;border:1px solid #2a3047;border-radius:16px;padding:13px 8px 11px;display:flex;flex-direction:column;align-items:center;gap:6px">
+          <img src="assets/ic-points.svg" alt="" height="26" style="display:block;width:auto" />
+          <div style="color:#4FCBBB;font-size:19px;font-weight:900">3,980</div>
+          <div style="color:rgba(255,255,255,.42);font-size:10px;font-weight:800;letter-spacing:.5px;text-transform:uppercase">Points</div>
+        </div>
+        <div style="flex:1;background:#1b1e2b;border:1px solid #2a3047;border-radius:16px;padding:13px 8px 11px;display:flex;flex-direction:column;align-items:center;gap:6px">
+          <img src="assets/ic-trophy.svg" alt="" height="26" style="display:block;width:auto" />
+          <div style="color:#F8C949;font-size:19px;font-weight:900">5th</div>
+          <div style="color:rgba(255,255,255,.42);font-size:10px;font-weight:800;letter-spacing:.5px;text-transform:uppercase">League</div>
+        </div>
+        <div style="flex:1;background:#1b1e2b;border:1px solid #2a3047;border-radius:16px;padding:13px 8px 11px;display:flex;flex-direction:column;align-items:center;gap:6px">
+          <img src="assets/ic-challenges.svg" alt="" height="26" style="display:block;width:auto" />
+          <div style="color:#fff;font-size:19px;font-weight:900">23</div>
+          <div style="color:rgba(255,255,255,.42);font-size:10px;font-weight:800;letter-spacing:.5px;text-transform:uppercase">Done</div>
+        </div>
+      </div>
+
+      <!-- hero: continue -->
+      <div style="padding:22px 16px 0;animation:rySecIn .5s .08s cubic-bezier(.2,.7,.2,1) both">
+        <div style="color:rgba(255,255,255,.5);font-size:12px;font-weight:800;letter-spacing:1.1px;text-transform:uppercase;margin:0 2px 10px">Pick up where you left off</div>
+        <div style="background:#1b1e2b;border:1px solid #2a3047;border-radius:20px;padding:18px">
+          <div style="display:flex;align-items:center;gap:13px">
+            <div style="width:48px;height:48px;border-radius:14px;background:#FF6B6B1f;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+              <img src="assets/tier-rookie.svg" alt="" width="30" height="30" style="display:block" />
+            </div>
+            <div style="flex:1;min-width:0">
+              <div style="color:#fff;font-size:17px;font-weight:900">Rookie tier</div>
+              <div style="color:rgba(255,255,255,.5);font-size:13px;font-weight:700;margin-top:1px">23 of 37 done &middot; keep it rolling</div>
+            </div>
+          </div>
+          <div style="margin-top:15px;height:10px;border-radius:6px;background:#2a3047;overflow:hidden">
+            <div style="height:100%;width:62%;border-radius:6px;background:#FF6B6B"></div>
+          </div>
+          <button type="button" onClick="{{ onChallenges }}" style="width:100%;margin-top:16px;background:#4FCBBB;color:#15161B;border:0;border-radius:16px;padding:16px;font-family:inherit;font-size:16px;font-weight:900;letter-spacing:.2px;cursor:pointer;box-shadow:0 4px 0 #37948A" style-active="transform:translateY(3px);box-shadow:0 1px 0 #37948A">Browse challenges</button>
+        </div>
+      </div>
+
+      <!-- highlight: DD Luv -->
+      <div style="padding:22px 16px 0;animation:rySecIn .5s .12s cubic-bezier(.2,.7,.2,1) both">
+        <div style="background:#272727;border:1px solid #7F60DC;border-radius:18px;padding:18px">
+          <div style="display:flex;align-items:center;gap:13px">
+            <div style="width:46px;height:46px;border-radius:13px;background:#7F60DC2e;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+              <img src="assets/tier-ddluv.svg" alt="" width="30" height="30" style="display:block" />
+            </div>
+            <div style="flex:1;min-width:0">
+              <div style="display:flex;align-items:center;gap:8px">
+                <span style="color:#fff;font-size:17px;font-weight:900">DD Luv</span>
+                <span style="background:#7F60DC22;color:#B9A6F0;font-size:10px;font-weight:900;letter-spacing:.6px;padding:3px 8px;border-radius:7px">NEW</span>
+              </div>
+              <div style="color:rgba(255,255,255,.5);font-size:13px;font-weight:700;margin-top:1px">Show your driver some love</div>
+            </div>
+          </div>
+          <p style="margin:13px 0 0;color:rgba(255,255,255,.6);font-size:13.5px;font-weight:700;line-height:1.5">A special set all about pampering the MVP who keeps your team safe. 11 challenges just dropped.</p>
+          <button type="button" onClick="{{ onDDLuv }}" style="width:100%;margin-top:15px;background:#fff;color:#15161B;border:0;border-radius:13px;padding:13px;font-family:inherit;font-size:14.5px;font-weight:900;cursor:pointer;box-shadow:0 3px 0 rgba(127,96,220,.55)" style-active="transform:translateY(2px);box-shadow:0 1px 0 rgba(127,96,220,.55)">View DD Luv</button>
+        </div>
+      </div>
+
+      <!-- map preview -->
+      <div style="padding:22px 16px 6px;animation:rySecIn .5s .16s cubic-bezier(.2,.7,.2,1) both">
+        <button type="button" onClick="{{ onMap }}" style="width:100%;text-align:left;background:#1b1e2b;border:1px solid #2a3047;border-radius:18px;overflow:hidden;cursor:pointer;font-family:inherit;padding:0;display:block" style-active="transform:translateY(1px)">
+          <div style="padding:16px 18px 12px;display:flex;align-items:center;justify-content:space-between">
+            <div>
+              <div style="color:#fff;font-size:16px;font-weight:900">City map</div>
+              <div style="color:rgba(255,255,255,.5);font-size:12.5px;font-weight:700;margin-top:1px">12 checkpoints live tonight</div>
+            </div>
+            <svg width="9" height="16" viewBox="0 0 11 18" fill="none"><path d="M1.5 1.5L9 9l-7.5 7.5" stroke="#5b6178" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div style="height:118px;background:radial-gradient(120% 140% at 30% 0%,#26304a 0%,#1a2033 60%,#161b29 100%);display:flex;align-items:center;justify-content:center;border-top:1px solid #232a40">
+            <img src="assets/ic-map.svg" alt="" width="74" height="68" style="display:block;opacity:.92;filter:drop-shadow(0 6px 14px rgba(0,0,0,.4))" />
+          </div>
+        </button>
+      </div>
+
+    </div>
+
+    <!-- bottom nav -->
+    <div style="flex-shrink:0;height:82px;background:#1b1e2b;border-top:1px solid #2a3047;display:flex;align-items:stretch;padding:0 6px 14px">
+      <sc-for list="{{ tabs }}" as="t">
+        <button type="button" onClick="{{ t.onTap }}" style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;background:none;border:0;cursor:pointer;font-family:inherit" style-active="transform:translateY(1px)">
+          <div style="display:flex;align-items:center;justify-content:center;height:30px">{{ t.iconEl }}</div>
+          <span style="{{ t.labelStyle }}">{{ t.label }}</span>
+        </button>
+      </sc-for>
+    </div>
+
+    <!-- toast -->
+    <div style="{{ toastStyle }}">{{ toast }}</div>
+  </div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:440,&quot;height&quot;:956}}">
+const ICONS = [
+  { src: "assets/ic-star.svg", w: 44, h: 45 },
+  { src: "assets/ic-trophy.svg", w: 52, h: 53 },
+  { src: "assets/ic-points.svg", w: 36, h: 45 },
+  { src: "assets/ic-challenges.svg", w: 27, h: 35 },
+  { src: "assets/ic-quicktime.svg", w: 34, h: 43 },
+  { src: "assets/ic-swordblue.svg", w: 44, h: 43 },
+  { src: "assets/ic-swordred.svg", w: 43, h: 44 },
+  { src: "assets/ic-rookie.svg", w: 36, h: 37 },
+  { src: "assets/ic-ranger.svg", w: 48, h: 49 },
+  { src: "assets/ic-driver.svg", w: 45, h: 54 },
+  { src: "assets/ic-map.svg", w: 78, h: 72 },
+];
+const NAV = {
+  home: "assets/nav-home.svg", challenges: "assets/nav-challenges.svg", map: "assets/nav-map.svg",
+  board: "assets/nav-league.svg", profile: "assets/nav-profile.svg",
+};
+// Fruit-Ninja intro constants
+const SCALE = 1.3;
+const TOP_BASE = 900;
+const G = 2300;
+const GAP = 150;
+const DEFS = Array.from({ length: 15 }).map((_, i) => {
+  const ic = ICONS[i % ICONS.length];
+  const t = i / 14;
+  const side = i % 2 === 0 ? -1 : 1;
+  const launchX = 220 + side * (55 + t * 120) + (Math.random() * 40 - 20);
+  return { src: ic.src, w: Math.round(ic.w * SCALE), h: Math.round(ic.h * SCALE), launchX };
+});
+
+class Component extends DCLogic {
+  state = { active: "home", toast: null };
+  _els = [];
+  _runId = 0;
+  componentDidMount() { this.run(); }
+  componentWillUnmount() { this._runId++; cancelAnimationFrame(this._raf); clearTimeout(this._t); }
+
+  ping(msg) {
+    clearTimeout(this._t);
+    this.setState({ toast: msg });
+    this._t = setTimeout(() => this.setState({ toast: null }), 1600);
+  }
+
+  run() {
+    const myId = ++this._runId;
+    cancelAnimationFrame(this._raf);
+    if (this._splash) { this._splash.style.opacity = "1"; this._splash.style.pointerEvents = "auto"; }
+    if (this._dash) { this._dash.style.opacity = "0"; }
+    this.parts = DEFS.map((d, i) => {
+      const toCenter = (220 - d.launchX) / 640;
+      return {
+        el: this._els[i],
+        delay: 380 + i * (GAP + (Math.random() * 50 - 25)),
+        launched: false,
+        x: 0, y: 120,
+        vx: toCenter * 320 + (Math.random() * 90 - 45),
+        vy: -(1320 + Math.random() * 260),
+        rot: Math.random() * 40 - 20,
+        av: (Math.random() * 2 - 1) * 300,
+      };
+    });
+    this._done = false;
+    const t0 = performance.now();
+    let prev = t0;
+    const loop = (t) => {
+      if (myId !== this._runId) return;
+      const dt = Math.min((t - prev) / 1000, 0.032); prev = t;
+      const elapsed = t - t0;
+      let allDown = true;
+      for (const p of this.parts) {
+        const el = p.el; if (!el) continue;
+        if (elapsed < p.delay) { el.style.opacity = "0"; allDown = false; continue; }
+        p.vy += G * dt;
+        p.x += p.vx * dt;
+        p.y += p.vy * dt;
+        p.rot += p.av * dt;
+        el.style.opacity = "1";
+        el.style.transform = `translate(${p.x.toFixed(1)}px,${p.y.toFixed(1)}px) rotate(${p.rot.toFixed(1)}deg)`;
+        if (p.y < 1150) allDown = false;
+      }
+      if (!this._done && elapsed > 900 && (allDown || elapsed > 4000)) { this._done = true; this.toDashboard(); return; }
+      this._raf = requestAnimationFrame(loop);
+    };
+    this._raf = requestAnimationFrame(loop);
+  }
+
+  toDashboard() {
+    if (this._splash) { this._splash.style.opacity = "0"; this._splash.style.pointerEvents = "none"; }
+    if (this._dash) this._dash.style.opacity = "1";
+  }
+
+  renderVals() {
+    const st = this.state;
+    const parts = DEFS.map((d, i) => ({
+      w: d.w, h: d.h,
+      ref: (el) => { this._els[i] = el; if (el && !el.src) el.src = d.src; },
+      style: `position:absolute;left:${(d.launchX - d.w / 2).toFixed(1)}px;top:${TOP_BASE - d.h / 2}px;opacity:0;transform:translate(0px,120px);will-change:transform,opacity;filter:drop-shadow(0 8px 14px rgba(0,0,0,.35));pointer-events:none`,
+    }));
+
+    const tabDefs = [
+      { id: "home", label: "Home", icon: NAV.home },
+      { id: "challenges", label: "Challenges", icon: NAV.challenges },
+      { id: "map", label: "Map", icon: NAV.map },
+      { id: "board", label: "League", icon: NAV.board },
+      { id: "profile", label: "Profile", icon: NAV.profile },
+    ];
+    const tabs = tabDefs.map(t => {
+      const on = st.active === t.id;
+      return {
+        onTap: () => { if (t.id !== "home") this.ping(t.label + " \u2192"); },
+        iconEl: React.createElement("img", { src: t.icon, alt: "", style: { maxWidth: "30px", maxHeight: "28px", width: "auto", height: "auto", display: "block", transition: "filter .2s,opacity .2s", filter: on ? "none" : "grayscale(1)", opacity: on ? 1 : 0.5 } }),
+        label: t.label,
+        labelStyle: `font-size:10.5px;font-weight:800;color:${on ? "#4FCBBB" : "#5b6178"};letter-spacing:.2px`,
+      };
+    });
+
+    return {
+      parts, tabs,
+      splashRef: (el) => { this._splash = el; },
+      dashRef: (el) => { this._dash = el; },
+      onReplay: () => this.run(),
+      onChallenges: () => this.ping("Challenges \u2192"),
+      onDDLuv: () => this.ping("DD Luv \u2192"),
+      onMap: () => this.ping("Map \u2192"),
+      toast: st.toast || "",
+      toastStyle: `position:absolute;left:50%;bottom:100px;transform:translateX(-50%) translateY(${st.toast ? "0" : "8px"});background:#23273B;border:1px solid #343A56;color:#fff;font-weight:800;font-size:13px;padding:10px 18px;border-radius:22px;opacity:${st.toast ? 1 : 0};pointer-events:none;transition:opacity .25s,transform .25s;z-index:20;white-space:nowrap`,
+      replayStyle: "flex-shrink:0;width:38px;height:38px;display:flex;align-items:center;justify-content:center;background:#23273B;border:1px solid #343A56;border-radius:50%;cursor:pointer;transition:background .15s,transform .06s",
+    };
+  }
+}
+
+</script>
+</body>
+</html>

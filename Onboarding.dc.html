@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,400;0,600;0,700;0,800;0,900&display=swap" rel="stylesheet">
+<style>
+  html,body{margin:0}
+  *{box-sizing:border-box}
+  a{color:#4FCBBB;text-decoration:none}
+  a:hover{color:#6fd8ca}
+  .ry-inp::placeholder{color:rgba(255,255,255,.34);font-weight:700}
+  .ry-inp:focus{outline:none;border-color:#4FCBBB!important}
+  @keyframes ryBubbleIn{0%{opacity:0;transform:translateX(10px) scale(.96)}100%{opacity:1;transform:none}}
+  @keyframes ryMascotIn{0%{opacity:0;transform:translateY(10px)}100%{opacity:1;transform:none}}
+  @keyframes ryRowIn{0%{opacity:0;transform:translateY(6px)}100%{opacity:1;transform:none}}
+  @keyframes ryFadeIn{0%{opacity:0}100%{opacity:1}}
+  @keyframes ryPop{0%{transform:scale(.5);opacity:0}60%{transform:scale(1.12)}100%{transform:scale(1);opacity:1}}
+  /* mascot idle motion — a gentle float + sway, like Duo's resting animation */
+  @keyframes ryIdle{0%,100%{transform:translateY(0) rotate(-1.3deg)}50%{transform:translateY(-7px) rotate(1.3deg)}}
+  @keyframes ryHop{0%{transform:translateY(0) scale(1,1)}30%{transform:translateY(-16px) scale(.94,1.08)}55%{transform:translateY(0) scale(1.08,.92)}75%{transform:translateY(-4px) scale(1,1)}100%{transform:translateY(0) scale(1,1)}}
+  @keyframes ryInfoIn{0%{opacity:0;transform:translateY(18px)}100%{opacity:1;transform:none}}
+</style>
+</helmet>
+<div style="width:440px;height:956px;position:relative;overflow:hidden;background:#15161B;font-family:Nunito,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;-webkit-font-smoothing:antialiased">
+
+  <!-- header: back + progress -->
+  <button type="button" onClick="{{ onBack }}" aria-label="Back" style="position:absolute;left:14px;top:69px;width:24px;height:22px;background:none;border:0;padding:0;cursor:pointer;display:flex;align-items:center" style-hover="opacity:.7">
+    <svg width="26" height="22" viewBox="0 0 26 22" fill="none"><path d="M38 81.5C38.83 81.5 39.5 80.83 39.5 80C39.5 79.17 38.83 78.5 38 78.5ZM14.94 78.94C14.35 79.53 14.35 80.47 14.94 81.06L24.49 90.61C25.07 91.19 26.02 91.19 26.61 90.61C27.19 90.02 27.19 89.07 26.61 88.49L18.12 80L26.61 71.51C27.19 70.93 27.19 69.98 26.61 69.39C26.02 68.81 25.07 68.81 24.49 69.39ZM38 80V78.5H16V81.5H38Z" fill="#343A56" transform="translate(-14 -69)"/></svg>
+  </button>
+  <div style="position:absolute;left:67px;top:67px;width:357px;height:26px;border-radius:13px;background:#343A56;overflow:hidden;z-index:7">
+    <div style="height:100%;border-radius:13px;background:#4FCBBB;transition:width .55s cubic-bezier(.2,.7,.2,1);width:{{ progressPx }}"></div>
+  </div>
+
+  <!-- mascot X (idle float + sway) -->
+  <div style="position:absolute;left:34px;top:120px;width:104px;height:110px;animation:ryMascotIn .5s ease both">
+    <img src="assets/mascot.svg" alt="" width="104" height="110" style="display:block;transform-origin:50% 88%;animation:ryIdle 3.4s ease-in-out infinite" />
+  </div>
+
+  <!-- speech bubble -->
+  <div style="position:absolute;left:186px;top:130px;width:206px;min-height:78px;background:#000;border:1px solid #7F60DC;border-radius:20px;padding:15px 18px;display:flex;flex-direction:column;justify-content:center">
+    <div style="position:absolute;left:-9px;top:44px;width:16px;height:16px;background:#000;border-left:1px solid #7F60DC;border-bottom:1px solid #7F60DC;transform:rotate(45deg)"></div>
+    <p style="margin:0;color:#fff;font-size:15.5px;font-weight:800;line-height:1.25">{{ bubbleTitle }}</p>
+    <p style="margin:5px 0 0;color:#7F60DC;font-size:12.5px;font-weight:700;line-height:1.3">{{ bubbleSub }}</p>
+  </div>
+
+  <!-- ===== STEP: name ===== -->
+  <div style="{{ nameStepStyle }}">
+    <input class="ry-inp" value="{{ query }}" onInput="{{ onInput }}" onFocus="{{ onFocus }}" ref="{{ nameRef }}" placeholder="Type your name" autocomplete="off" style="width:100%;height:46px;border-radius:12px;background:#23273B;border:1px solid #343A56;color:#fff;font-family:inherit;font-size:16px;font-weight:700;padding:0 16px" />
+    <div style="{{ resultsWrapStyle }}">
+      <sc-for list="{{ results }}" as="p" hint-placeholder-count="3">
+        <button type="button" onClick="{{ p.onSelect }}" style="{{ p.rowStyle }}" style-hover="background:#2b3049">
+          <div style="width:38px;height:38px;border-radius:50%;background:#343A56;color:#4FCBBB;font-weight:800;font-size:15px;display:flex;align-items:center;justify-content:center;flex-shrink:0">{{ p.initials }}</div>
+          <div style="flex:1;min-width:0;text-align:left">
+            <div style="color:#fff;font-size:15.5px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ p.name }}</div>
+            <div style="color:rgba(255,255,255,.42);font-size:12.5px;font-weight:700">{{ p.meta }}</div>
+          </div>
+          <div style="{{ p.checkStyle }}">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7.5L5.5 11L12 3.5" stroke="#15161B" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+        </button>
+      </sc-for>
+      <div style="{{ emptyStyle }}">No one on the roster matches that. Check your spelling, or ask an organizer.</div>
+    </div>
+  </div>
+
+  <!-- ===== STEP: player type ===== -->
+  <div style="{{ ptypeDivTop }}"></div>
+  <div style="{{ ptypeDivBot }}"></div>
+  <div style="{{ ptypeStepStyle }}">
+    <button type="button" onClick="{{ onCasual }}" style="{{ casualStyle }}" style-hover="border-color:#4a5b61">
+      <div style="display:flex;align-items:flex-end;gap:4px;width:65px;flex-shrink:0">
+        <div style="width:19px;height:30px;border-radius:6px;background:#33847A"></div>
+        <div style="width:19px;height:47px;border-radius:6px;background:#25302E"></div>
+        <div style="width:19px;height:62px;border-radius:6px;background:#25302E"></div>
+      </div>
+      <div style="flex:1;text-align:left">
+        <div style="color:#fff;font-size:18px;font-weight:900;letter-spacing:-.2px">I AM A NEW PLAYER</div>
+        <div style="color:rgba(255,255,255,.5);font-size:13.5px;font-weight:700;line-height:1.35;margin-top:3px">I have never played Car Rally before.</div>
+      </div>
+      <div style="{{ casualCheck }}">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7.5L5.5 11L12 3.5" stroke="#15161B" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+    </button>
+    <button type="button" onClick="{{ onComp }}" style="{{ compStyle }}" style-hover="border-color:#4a5b61">
+      <div style="display:flex;align-items:flex-end;gap:4px;width:65px;flex-shrink:0">
+        <div style="width:19px;height:30px;border-radius:6px;background:#33847A"></div>
+        <div style="width:19px;height:47px;border-radius:6px;background:#33847A"></div>
+        <div style="width:19px;height:62px;border-radius:6px;background:#33847A"></div>
+      </div>
+      <div style="flex:1;text-align:left">
+        <div style="color:#fff;font-size:18px;font-weight:900;letter-spacing:-.2px">I AM A RETURNING PLAYER</div>
+        <div style="color:rgba(255,255,255,.5);font-size:13.5px;font-weight:700;line-height:1.35;margin-top:3px">We are so back (it means you've played Car Rally before).</div>
+      </div>
+      <div style="{{ compCheck }}">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7.5L5.5 11L12 3.5" stroke="#15161B" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+    </button>
+  </div>
+
+  <!-- ===== STEP: new / returning player (exact SVG art + live overlays) ===== -->
+  <sc-if value="{{ isInfo }}" hint-placeholder-val="{{ false }}">
+  <div style="position:absolute;top:0;left:0;width:440px;height:956px;z-index:6;background:#15161B">
+    <div style="position:absolute;inset:0">
+      <img src="assets/ob-new-player.svg" alt="" width="440" height="956" style="{{ newImgStyle }}" />
+      <img src="assets/ob-returning-player.svg" alt="" width="440" height="956" style="{{ returningImgStyle }}" />
+    </div>
+    <!-- animated mascot X (patch over baked static one, then redraw with idle motion) -->
+    <div style="position:absolute;left:28px;top:118px;width:120px;height:122px;background:#15161B"></div>
+    <div style="position:absolute;left:34px;top:120px;width:104px;height:110px">
+      <img src="assets/mascot.svg" alt="" width="104" height="110" style="display:block;transform-origin:50% 88%;animation:ryIdle 3.4s ease-in-out infinite" />
+    </div>
+    <button type="button" onClick="{{ onInfoBack }}" aria-label="Back" style="position:absolute;left:6px;top:60px;width:48px;height:42px;background:none;border:0;cursor:pointer;z-index:8" style-hover="opacity:.55"></button>
+    <button type="button" onClick="{{ onContinue }}" aria-label="Continue" style="position:absolute;left:16px;top:841px;width:409px;height:46px;background:none;border:0;cursor:pointer" style-active="transform:translateY(3px)"></button>
+  </div>
+  </sc-if>
+
+  <!-- continue -->
+  <button type="button" onClick="{{ onContinue }}" disabled="{{ continueDisabled }}" style="{{ continueStyle }}" style-active="transform:translateY(4px);box-shadow:0 0 0 0 #379488">
+    <span style="font-weight:800;font-size:13.48px;letter-spacing:.8px;color:#fff;text-transform:uppercase">continue</span>
+  </button>
+
+  <!-- ===== 2FA bottom sheet ===== -->
+  <div style="{{ scrimStyle }}" onClick="{{ onCloseSheet }}"></div>
+  <div style="{{ sheetStyle }}">
+    <div style="width:44px;height:5px;border-radius:3px;background:#3a4160;margin:0 auto 20px"></div>
+    <div style="{{ verifyPanelStyle }}">
+      <div style="width:52px;height:52px;border-radius:15px;background:rgba(79,203,187,.14);display:flex;align-items:center;justify-content:center;margin-bottom:16px">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M17 9V7a5 5 0 0 0-10 0v2M5 9h14a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-9a1 1 0 0 1 1-1Z" stroke="#4FCBBB" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <h2 style="margin:0;color:#fff;font-size:24px;font-weight:900;letter-spacing:-.3px">Verify it's you</h2>
+      <p style="margin:8px 0 0;color:rgba(255,255,255,.55);font-size:14.5px;font-weight:600;line-height:1.45">We texted a 6-digit code to the number on file for <span style="color:#fff;font-weight:800">{{ selectedName }}</span> — <span style="color:#fff;font-weight:800;white-space:nowrap">{{ selectedPhone }}</span></p>
+      <div onClick="{{ focusCode }}" style="position:relative;display:flex;gap:9px;margin:26px 0 0;cursor:text">
+        <input ref="{{ codeRef }}" value="{{ code }}" onInput="{{ onCodeInput }}" inputmode="numeric" autocomplete="one-time-code" maxlength="6" style="position:absolute;inset:0;opacity:0;width:100%;height:100%;border:0;font-size:16px" />
+        <sc-for list="{{ boxes }}" as="b" hint-placeholder-count="6">
+          <div style="{{ b.style }}">{{ b.char }}<div style="{{ b.caretStyle }}"></div></div>
+        </sc-for>
+      </div>
+      <div style="{{ errStyle }}">That code didn't match. Try again.</div>
+      <div style="margin-top:18px;color:rgba(255,255,255,.5);font-size:13.5px;font-weight:700">{{ resendText }} <a onClick="{{ onResend }}" style="{{ resendLinkStyle }}">Resend code</a></div>
+      <button type="button" onClick="{{ onVerify }}" disabled="{{ verifyDisabled }}" style="{{ verifyBtnStyle }}" style-active="transform:translateY(4px);box-shadow:0 0 0 0 #379488">
+        <span style="font-weight:800;font-size:13.48px;letter-spacing:.8px;color:#fff;text-transform:uppercase">{{ verifyLabel }}</span>
+      </button>
+    </div>
+    <div style="{{ successPanelStyle }}">
+      <div style="width:88px;height:88px;border-radius:50%;background:#4FCBBB;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 0 0 #379488;animation:ryPop .5s cubic-bezier(.2,.8,.2,1) both">
+        <svg width="46" height="46" viewBox="0 0 24 24" fill="none"><path d="M4 12.5L9.5 18L20 6.5" stroke="#15161B" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <h2 style="margin:22px 0 0;color:#fff;font-size:26px;font-weight:900;letter-spacing:-.3px">You're verified!</h2>
+      <p style="margin:8px 0 0;color:rgba(255,255,255,.55);font-size:15px;font-weight:600;text-align:center;line-height:1.45">Welcome to Rally, <span style="color:#fff;font-weight:800">{{ firstName }}</span>. One quick thing before we go.</p>
+      <button type="button" onClick="{{ onFinish }}" style="margin-top:30px;width:100%;height:46px;border:0;border-radius:12px;background:#4FCBBB;box-shadow:0 4px 0 0 #379488;cursor:pointer;font-family:inherit" style-active="transform:translateY(4px);box-shadow:0 0 0 0 #379488">
+        <span style="font-weight:800;font-size:13.48px;letter-spacing:.8px;color:#fff;text-transform:uppercase">continue</span>
+      </button>
+    </div>
+  </div>
+
+  <div style="{{ toastStyle }}">{{ toastText }}</div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:440,&quot;height&quot;:956}}">
+const ROSTER = [
+  { id: 1, name: "Maya Chen", team: "Loop Wolves", phone: "\u2022\u2022\u2022\u2022 \u2022\u2022\u2022-4417" },
+  { id: 2, name: "Maya Okonkwo", team: "River Rats", phone: "\u2022\u2022\u2022\u2022 \u2022\u2022\u2022-8890" },
+  { id: 3, name: "Mayer Goldberg", team: "The Cartographers", phone: "\u2022\u2022\u2022\u2022 \u2022\u2022\u2022-2051" },
+  { id: 4, name: "Amaya Ruiz", team: "Loop Wolves", phone: "\u2022\u2022\u2022\u2022 \u2022\u2022\u2022-6634" },
+  { id: 5, name: "Liam Park", team: "Night Owls", phone: "\u2022\u2022\u2022\u2022 \u2022\u2022\u2022-1120" },
+  { id: 6, name: "Liana Foster", team: "Night Owls", phone: "\u2022\u2022\u2022\u2022 \u2022\u2022\u2022-3390" },
+  { id: 7, name: "Noah Whitaker", team: "The Cartographers", phone: "\u2022\u2022\u2022\u2022 \u2022\u2022\u2022-7788" },
+  { id: 8, name: "Sofia Delgado", team: "River Rats", phone: "\u2022\u2022\u2022\u2022 \u2022\u2022\u2022-9902" },
+  { id: 9, name: "Jordan Ellis", team: "Free agent", phone: "\u2022\u2022\u2022\u2022 \u2022\u2022\u2022-4471" },
+  { id: 10, name: "Priya Nair", team: "Loop Wolves", phone: "\u2022\u2022\u2022\u2022 \u2022\u2022\u2022-5560" },
+];
+class Component extends DCLogic {
+  state = { step: "name", query: "", selectedId: null, focused: false, sheet: false, code: "", verifying: false, verified: false, error: false, resend: 30, ptype: null, toast: null };
+  componentWillUnmount() { clearInterval(this._rt); clearTimeout(this._t); clearTimeout(this._tt); }
+  initials(n) { return n.split(" ").map(w => w[0]).slice(0, 2).join("").toUpperCase(); }
+  selected() { return ROSTER.find(r => r.id === this.state.selectedId) || null; }
+  onInput = (e) => { this.setState({ query: e.target.value, selectedId: null, focused: true }); };
+  select(r) { this.setState({ query: r.name, selectedId: r.id, focused: false }); };
+  openSheet() {
+    this.setState({ sheet: true, code: "", error: false, verified: false, resend: 30 });
+    clearInterval(this._rt);
+    this._rt = setInterval(() => this.setState(s => {
+      if (s.resend <= 1) { clearInterval(this._rt); return { resend: 0 }; }
+      return { resend: s.resend - 1 };
+    }), 1000);
+    setTimeout(() => this._code && this._code.focus(), 420);
+  }
+  onVerify = () => {
+    if (this.state.code.length < 6 || this.state.verifying) return;
+    this.setState({ verifying: true, error: false });
+    clearTimeout(this._t);
+    this._t = setTimeout(() => this.setState({ verifying: false, verified: true }), 950);
+  };
+  ping(msg) { this.setState({ toast: msg }); clearTimeout(this._tt); this._tt = setTimeout(() => this.setState({ toast: null }), 2400); }
+  renderVals() {
+    const st = this.state;
+    const step = st.step;
+    const q = st.query.trim().toLowerCase();
+    const sel = this.selected();
+    const showResults = st.focused && q.length > 0 && !sel;
+    let matches = q.length > 0 ? ROSTER.filter(r => r.name.toLowerCase().includes(q)).slice(0, 4) : [];
+    const results = matches.map(r => {
+      const isSel = r.id === st.selectedId;
+      return {
+        name: r.name, meta: r.team + "  \u00b7  " + r.phone, initials: this.initials(r.name),
+        onSelect: () => this.select(r),
+        rowStyle: "width:100%;display:flex;align-items:center;gap:12px;padding:10px 12px;background:none;border:0;border-radius:12px;cursor:pointer;font-family:inherit;animation:ryRowIn .28s ease both;transition:background .12s",
+        checkStyle: `width:24px;height:24px;border-radius:50%;background:#4FCBBB;display:${isSel ? "flex" : "none"};align-items:center;justify-content:center;flex-shrink:0`,
+      };
+    });
+    const boxes = Array.from({ length: 6 }).map((_, i) => {
+      const ch = st.code[i] || "";
+      const active = i === st.code.length && st.code.length < 6;
+      return {
+        char: ch,
+        style: `width:46px;height:56px;border-radius:12px;background:#15161B;border:2px solid ${st.error ? "#e0576b" : (ch || active ? "#4FCBBB" : "#343A56")};color:#fff;font-size:24px;font-weight:900;display:flex;align-items:center;justify-content:center;position:relative;transition:border-color .15s`,
+        caretStyle: `display:${active ? "block" : "none"};width:2px;height:24px;background:#4FCBBB;animation:ryFadeIn 1s steps(1) infinite alternate`,
+      };
+    });
+    const isInfo = step === "newplayer" || step === "returning";
+    // step-based so the bar only advances forward (back navigation lowers it, as expected)
+    let progress = 0.2;
+    if (st.sheet && !st.verified) progress = 0.4;
+    if (step === "ptype") progress = 0.6;
+    if (isInfo) progress = 0.85;
+    const first = sel ? sel.name.split(" ")[0] : "";
+    // bubble copy
+    let bTitle = "What's your name?", bSub = "I'll match you to the roster.";
+    if (step === "name" && sel) { bTitle = "Found you, " + first + "!"; bSub = "Tap continue to verify it's really you."; }
+    if (step === "ptype") { bTitle = "Are you a NEW or RETURNING PLAYER?"; bSub = "Select the option right for you."; }
+    const cardBase = "position:relative;width:408px;height:105px;border-radius:12px;background:none;display:flex;align-items:center;gap:26px;padding:0 20px 0 22px;cursor:pointer;font-family:inherit;transition:border-color .15s,background .15s";
+    const cardBorder = (on) => on ? "border:2px solid #4FCBBB;background:rgba(79,203,187,.06)" : "border:2px solid #343A56";
+    const chk = (on) => `position:absolute;top:12px;right:12px;width:24px;height:24px;border-radius:50%;background:#4FCBBB;display:${on ? "flex" : "none"};align-items:center;justify-content:center`;
+    const contDisabled = step === "ptype" ? !st.ptype : !sel;
+    return {
+      onBack: () => { if (step === "ptype") this.setState({ step: "name" }); else this.ping("\u2190 Back to welcome"); },
+      isInfo,
+      newImgStyle: `position:absolute;top:0;left:0;display:${step === "newplayer" ? "block" : "none"}`,
+      returningImgStyle: `position:absolute;top:0;left:0;display:${step === "returning" ? "block" : "none"}`,
+      onInfoBack: () => this.setState({ step: "ptype" }),
+      progressPx: Math.round(357 * progress) + "px",
+      bubbleTitle: bTitle, bubbleSub: bSub,
+      // name step
+      nameStepStyle: `position:absolute;left:16px;top:280px;width:408px;display:${step === "name" ? "block" : "none"}`,
+      query: st.query, onInput: this.onInput, onFocus: () => this.setState({ focused: true }),
+      nameRef: (el) => { this._name = el; },
+      results,
+      resultsWrapStyle: `margin-top:10px;background:#1c1f2e;border:1px solid #343A56;border-radius:14px;padding:6px;display:${showResults && matches.length ? "block" : "none"}`,
+      emptyStyle: `padding:16px 14px;color:rgba(255,255,255,.5);font-size:13.5px;font-weight:700;line-height:1.4;display:${showResults && !matches.length ? "block" : "none"}`,
+      // ptype step
+      ptypeStepStyle: `position:absolute;left:16px;top:291px;width:408px;display:${step === "ptype" ? "flex" : "none"};flex-direction:column;gap:14px`,
+      ptypeDivTop: `position:absolute;left:0;top:260px;width:440px;height:1px;background:#343A56;display:${step === "ptype" ? "block" : "none"}`,
+      ptypeDivBot: `position:absolute;left:0;top:815px;width:440px;height:1px;background:#343A56;display:${step === "ptype" ? "block" : "none"}`,
+      casualStyle: cardBase + ";" + cardBorder(st.ptype === "casual"),
+      compStyle: cardBase + ";" + cardBorder(st.ptype === "comp"),
+      casualCheck: chk(st.ptype === "casual"),
+      compCheck: chk(st.ptype === "comp"),
+      onCasual: () => this.setState({ ptype: "casual" }),
+      onComp: () => this.setState({ ptype: "comp" }),
+      // continue
+      continueDisabled: contDisabled,
+      continueStyle: `position:absolute;left:16px;top:841px;width:409px;height:46px;border:0;border-radius:12px;background:#4FCBBB;box-shadow:0 4px 0 0 #379488;display:flex;align-items:center;justify-content:center;cursor:${contDisabled ? "not-allowed" : "pointer"};opacity:${contDisabled ? ".4" : "1"};font-family:inherit;transition:opacity .2s,transform .06s,box-shadow .06s`,
+      onContinue: () => {
+        if (step === "name") { if (sel) this.openSheet(); }
+        else if (step === "ptype") { if (st.ptype) this.setState({ step: st.ptype === "comp" ? "returning" : "newplayer" }); }
+        else if (isInfo) { this.ping("\u2192 Entering Rally \u00b7 pick your team on Home"); }
+      },
+      // sheet
+      scrimStyle: `position:absolute;inset:0;background:rgba(0,0,0,.55);backdrop-filter:blur(2px);opacity:${st.sheet ? 1 : 0};pointer-events:${st.sheet ? "auto" : "none"};transition:opacity .3s`,
+      sheetStyle: `position:absolute;left:0;right:0;bottom:0;min-height:420px;background:#23273B;border-top:1px solid #343A56;border-radius:26px 26px 0 0;padding:14px 24px 30px;transform:translateY(${st.sheet ? "0" : "100%"});transition:transform .38s cubic-bezier(.2,.8,.2,1);box-shadow:0 -20px 60px rgba(0,0,0,.5)`,
+      onCloseSheet: () => { clearInterval(this._rt); this.setState({ sheet: false }); },
+      verifyPanelStyle: `display:${st.verified ? "none" : "block"}`,
+      successPanelStyle: `flex-direction:column;align-items:center;padding-top:12px;display:${st.verified ? "flex" : "none"}`,
+      selectedName: sel ? sel.name : "", selectedPhone: sel ? sel.phone : "", firstName: first,
+      code: st.code, codeRef: (el) => { this._code = el; },
+      onCodeInput: (e) => { const v = (e.target.value || "").replace(/\D/g, "").slice(0, 6); this.setState({ code: v, error: false }); },
+      focusCode: () => this._code && this._code.focus(),
+      boxes,
+      errStyle: `margin-top:12px;color:#e0576b;font-size:13px;font-weight:800;text-align:center;display:${st.error ? "block" : "none"}`,
+      resendText: st.resend > 0 ? `Didn't get it? You can resend in 0:${String(st.resend).padStart(2, "0")}` : "Didn't get a code?",
+      resendLinkStyle: `font-weight:800;cursor:pointer;display:${st.resend > 0 ? "none" : "inline"}`,
+      onResend: () => { this.openSheet(); this.ping("New code sent \u2713"); },
+      verifyDisabled: st.code.length < 6 || st.verifying,
+      verifyLabel: st.verifying ? "Verifying\u2026" : "Verify",
+      verifyBtnStyle: `margin-top:24px;width:100%;height:46px;border:0;border-radius:12px;background:#4FCBBB;box-shadow:0 4px 0 0 #379488;cursor:${st.code.length < 6 ? "not-allowed" : "pointer"};opacity:${st.code.length < 6 ? ".45" : "1"};font-family:inherit;transition:opacity .2s,transform .06s,box-shadow .06s`,
+      onVerify: this.onVerify,
+      onFinish: () => this.setState({ sheet: false, step: "ptype" }),
+      toastText: st.toast || "",
+      toastStyle: `position:absolute;left:50%;bottom:120px;transform:translateX(-50%) translateY(${st.toast ? "0" : "8px"});opacity:${st.toast ? 1 : 0};transition:all .25s;pointer-events:none;background:rgba(79,203,187,.16);color:#4FCBBB;font-weight:800;font-size:13px;padding:10px 18px;border-radius:22px;white-space:nowrap;z-index:20`,
+    };
+  }
+}
+</script>
+</body>
+</html>

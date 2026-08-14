@@ -1,0 +1,12 @@
+# Roster data contains real names and phone numbers — never commit it
+roster.csv
+roster.xls
+roster.xlsx
+
+node_modules
+dist
+dist-ssr
+*.local
+
+.DS_Store
+Thumbs.db
