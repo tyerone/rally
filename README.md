@@ -1,4 +1,4 @@
-# Handoff: Rally — City Challenge Event Companion App
+#  Rally — City Challenge Event Companion App
 
 ## Overview
 Rally is a mobile companion app for a city-wide, team-based challenge event (a "car rally" scavenger-hunt night). Teams complete challenges across independent tiers, earn points, race up a live league leaderboard, find checkpoints/stations on a city map, and complete time-limited "Quicktimes." The design targets a 440×956 mobile viewport and follows a **Duolingo-inspired design language**: chunky buttons with a 3D bottom "lip" shadow, rounded cards, a playful mascot, bold Nunito type, and a dark navy/charcoal theme with teal + purple + gold accents.
